@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Select Institute - VFind</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/a076d05399.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+
+  <body>
+    <div class="page-bg"></div>
+
+    <div class="floating-icons">
+      <i class="fas fa-university"></i>
+      <i class="fas fa-book-open"></i>
+      <i class="fas fa-laptop-code"></i>
+      <i class="fas fa-graduation-cap"></i>
+    </div>
+
+    <section class="institute-container">
+      <h1>🎓 Choose Your Institute</h1>
+      <p>Select your institute to continue with <b>VFind</b></p>
+
+      <form id="instituteForm">
+        <select id="instituteSelect" required>
+          <option value="">-- Select Institute --</option>
+          <option value="MAJU">Muhammad Ali Jinnah University</option>
+          <option value="NED">NED University</option>
+          <option value="FAST">FAST NUCES</option>
+          <option value="IQRA">Iqra University</option>
+          <option value="DHA">DHA Suffa University</option>
+          <option value="KU">Karachi University</option>
+        </select>
+
+        <button type="submit">Continue →</button>
+      </form>
+    </section>
+
+    <img src="LOGO.png" alt="VFind Logo" class="corner-logo" />
+
+    <script>
+      const instituteSelect = document.getElementById("instituteSelect");
+      const form = document.getElementById("instituteForm");
+
+      // Restore previously selected institute
+      const savedInstitute = localStorage.getItem("vfind_institute");
+      if (savedInstitute) instituteSelect.value = savedInstitute;
+
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const value = instituteSelect.value;
+        if (!value) return alert("Please select an institute");
+
+        // Save selected institute
+        localStorage.setItem("vfind_institute", value);
+
+        // Redirect to login
+        window.location.href = "login.html";
+      });
+    </script>
+  </body>
+</html>

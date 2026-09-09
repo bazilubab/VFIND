@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>VFind — Home</title>
+    <style>
+      /* Reset + base */
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+      html,
+      body {
+        height: 100%;
+        width: 100%;
+        font-family: "Poppins", system-ui, Segoe UI, Roboto, Arial;
+        background: #071822;
+        color: #e6f7f7;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+      body {
+        background: radial-gradient(
+            700px 320px at 12% 8%,
+            rgba(0, 224, 255, 0.06),
+            transparent 12%
+          ),
+          radial-gradient(
+            560px 260px at 90% 86%,
+            rgba(255, 210, 77, 0.05),
+            transparent 8%
+          ),
+          linear-gradient(180deg, #04121a 0%, #08171b 100%);
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+      }
+
+      /* NAV */
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 28px;
+        background: linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.02),
+          rgba(255, 255, 255, 0.01)
+        );
+        backdrop-filter: blur(6px);
+        position: sticky;
+        top: 0;
+        z-index: 60;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+      }
+      .nav-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .nav-logo {
+        width: 52px;
+        height: 52px;
+        object-fit: contain;
+        border-radius: 10px;
+        padding: 6px;
+        background: rgba(255, 255, 255, 0.03);
+      }
+      .brand-name {
+        font-weight: 700;
+        color: #dff9f9;
+      }
+      .brand-sub {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.55);
+      }
+      .inst-badge {
+        font-size: 0.9rem;
+        padding: 6px 10px;
+        border-radius: 10px;
+        background: rgba(0, 0, 0, 0.25);
+        color: #e6fbfb;
+        margin-left: 8px;
+        font-weight: 700;
+      }
+      .nav-links {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        list-style: none;
+      }
+      .nav-links a {
+        padding: 8px 10px;
+        border-radius: 6px;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.85);
+      }
+      .nav-links a.active {
+        background: linear-gradient(90deg, #00e0ff, #ffd24d);
+        color: #042b33;
+      }
+      .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .btn {
+        padding: 9px 14px;
+        border-radius: 10px;
+        border: 0;
+        cursor: pointer;
+        font-weight: 700;
+      }
+      .btn-ghost {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        color: #dff7f7;
+      }
+      .btn-primary {
+        background: linear-gradient(90deg, #00e0ff, #ffd24d);
+        color: #042b33;
+      }
+
+      /* HERO */
+      .hero {
+        display: flex;
+        gap: 32px;
+        align-items: center;
+        justify-content: space-between;
+        padding: 68px 5vw 32px;
+        min-height: 62vh;
+      }
+      .hero-left {
+        flex: 1;
+        max-width: 760px;
+      }
+      .hero-left h1 {
+        font-size: 3rem;
+        line-height: 1.03;
+        font-weight: 800;
+        color: #f0fdfd;
+        margin-bottom: 10px;
+      }
+      .hero-left h1 .accent {
+        background: linear-gradient(90deg, #00e0ff, #ffd24d);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: transparent;
+      }
+      .lead {
+        color: rgba(230, 247, 247, 0.9);
+        margin-bottom: 18px;
+        font-size: 1.05rem;
+      }
+      .hero-ctas {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .cta-btn {
+        padding: 12px 22px;
+        border-radius: 12px;
+        font-weight: 800;
+        border: 0;
+        cursor: pointer;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+        transition: transform 0.15s;
+      }
+      .cta-btn:active {
+        transform: translateY(2px);
+      }
+      .cta-lost {
+        background: linear-gradient(180deg, #ff6b6b, #ff4a4a);
+        color: #fff;
+      }
+      .cta-found {
+        background: linear-gradient(180deg, #00e0ff, #ffd24d);
+        color: #042b33;
+      }
+      .cta-search {
+        background: transparent;
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        color: #cfeff0;
+      }
+      .hero-right {
+        flex: 0 0 420px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 14px;
+        justify-content: center;
+        position: relative;
+      }
+      .hero-img {
+        width: 360px;
+        border-radius: 14px;
+        box-shadow: 0 20px 50px rgba(2, 10, 12, 0.6);
+        object-fit: cover;
+        border: 1px solid rgba(255, 255, 255, 0.03);
+        transition: transform 1s ease;
+      }
+      .hero-img.small {
+        width: 240px;
+        opacity: 0.98;
+        transform: translateY(20px);
+      }
+      .hero-img:hover {
+        transform: scale(1.03);
+      }
+
+      /* overview */
+      .overview {
+        display: flex;
+        gap: 16px;
+        padding: 16px 5vw;
+      }
+      .stat-card {
+        flex: 1;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.02),
+          rgba(255, 255, 255, 0.01)
+        );
+        padding: 16px;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.03);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+      }
+      .stat-num {
+        font-weight: 800;
+        font-size: 1.4rem;
+      }
+      .stat-label {
+        color: rgba(255, 255, 255, 0.6);
+        margin-top: 8px;
+      }
+
+      /* preview cards */
+      .preview {
+        padding: 8px 5vw 48px;
+      }
+      .card-grid {
+        display: flex;
+        gap: 14px;
+        flex-wrap: wrap;
+        margin-top: 12px;
+      }
+      .item-card {
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.015),
+          rgba(255, 255, 255, 0.01)
+        );
+        border-radius: 12px;
+        padding: 10px;
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        border: 1px solid rgba(255, 255, 255, 0.03);
+        width: 320px;
+      }
+      .item-thumb {
+        width: 84px;
+        height: 84px;
+        border-radius: 10px;
+        overflow: hidden;
+        flex-shrink: 0;
+      }
+      .item-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      .item-meta .title {
+        font-weight: 700;
+      }
+      .item-meta .sub {
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.6);
+        margin-top: 6px;
+      }
+
+      /* footer */
+      .footer {
+        padding: 28px 5vw;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.01),
+          rgba(255, 255, 255, 0.005)
+        );
+        display: flex;
+        gap: 18px;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        border-top: 1px solid rgba(255, 255, 255, 0.02);
+      }
+      .f-col {
+        min-width: 180px;
+      }
+      .foot-logo {
+        width: 68px;
+        border-radius: 10px;
+        margin-bottom: 8px;
+      }
+      .muted {
+        color: rgba(255, 255, 255, 0.6);
+      }
+
+      @media (max-width: 1000px) {
+        .hero {
+          flex-direction: column;
+          padding: 48px 20px;
+        }
+        .hero-right {
+          flex-direction: row;
+          justify-content: center;
+        }
+        .hero-img {
+          width: 260px;
+        }
+        .hero-img.small {
+          width: 160px;
+        }
+        .nav-links {
+          display: none;
+        }
+        .overview {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <!-- NAV -->
+    <header class="nav" role="banner">
+      <div class="nav-left">
+        <img
+          id="logoImg"
+          src="LOGO.png"
+          alt="VFind logo"
+          class="nav-logo"
+          loading="lazy"
+        />
+        <div>
+          <div class="brand-name">
+            VFind
+            <span
+              id="instBadge"
+              class="inst-badge"
+              title="Your Institute"
+            ></span>
+          </div>
+          <div class="brand-sub">Lost & Found</div>
+        </div>
+      </div>
+
+      <nav>
+        <ul class="nav-links" role="navigation" aria-label="Main">
+          <li><a class="active" href="#">Home</a></li>
+          <li><a href="lost.html">Lost</a></li>
+          <li><a href="found.html">Found</a></li>
+          <li><a href="search.html">Search</a></li>
+          <li><a href="profile.html">Profile</a></li>
+          <li><a href="about.html">About</a></li>
+        </ul>
+      </nav>
+
+      <div class="nav-right">
+        <button id="signOut" class="btn btn-primary small">Sign Out</button>
+      </div>
+    </header>
+
+    <!-- HERO -->
+    <main class="hero" role="main">
+      <section class="hero-left">
+        <h1>Find &nbsp;<span class="accent">Recover</span><br />With Ease</h1>
+        <p class="lead">
+          Quickly report lost/found items and connect with your institute to
+          recover possessions securely.
+        </p>
+        <div class="hero-ctas">
+          <button id="btnLost" class="cta-btn cta-lost">Report Lost</button>
+          <button id="btnFound" class="cta-btn cta-found">Report Found</button>
+          <button id="btnSearch" class="cta-btn cta-search">
+            Search Items
+          </button>
+        </div>
+      </section>
+
+      <aside class="hero-right" aria-hidden="false">
+        <img
+          id="img1"
+          src="1.png"
+          alt="illustration 1"
+          class="hero-img big"
+          loading="lazy"
+        />
+        <img
+          id="img2"
+          src="2.png"
+          alt="illustration 2"
+          class="hero-img small"
+          loading="lazy"
+        />
+      </aside>
+    </main>
+
+    <!-- OVERVIEW STATS -->
+    <section class="overview">
+      <div class="stat-card">
+        <div class="stat-num" id="numLost">0</div>
+        <div class="stat-label">Lost Items</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="numFound">0</div>
+        <div class="stat-label">Found Items</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="numReturned">0</div>
+        <div class="stat-label">Returned</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-num" id="numUsers">0</div>
+        <div class="stat-label">Registered</div>
+      </div>
+    </section>
+
+    <!-- LATEST PREVIEWS -->
+    <section class="preview">
+      <h2 style="margin: 6px 0 12px; color: #dff7f7">Latest Reports</h2>
+      <div id="cards" class="card-grid"></div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="f-col">
+        <img
+          id="footLogo"
+          src="LOGO.png"
+          class="foot-logo"
+          alt="VFind logo"
+          loading="lazy"
+        />
+        <div class="muted">
+          VFind — Simple & fast lost-and-found for your institute.
+        </div>
+      </div>
+      <div class="f-col">
+        <h4 style="color: #dff7f7">Site</h4>
+        <a href="lost.html">Report Lost</a>
+        <a href="found.html">Report Found</a>
+      </div>
+      <div class="f-col">
+        <h4 style="color: #dff7f7">Help</h4>
+        <a href="#">Customer Support</a>
+        <a href="#">Privacy</a>
+      </div>
+      <div class="f-col">
+        <h4 style="color: #dff7f7">Contact</h4>
+        <div class="muted">support@vfind.com</div>
+        <div class="muted">+92 765 432 000</div>
+      </div>
+    </footer>
+
+    <script>
+      // Demo dataset
+      const allReports = [
+        {
+          id: 1,
+          title: "Blue Backpack",
+          type: "lost",
+          inst: "MAJU",
+          time: "2 days ago",
+          img: "1.png",
+        },
+        {
+          id: 2,
+          title: "Student ID Card",
+          type: "lost",
+          inst: "FAST",
+          time: "4 hours ago",
+          img: "1.png",
+        },
+        {
+          id: 3,
+          title: "Wristwatch",
+          type: "found",
+          inst: "NED",
+          time: "1 day ago",
+          img: "2.png",
+        },
+        {
+          id: 4,
+          title: "Keys (silver)",
+          type: "found",
+          inst: "MAJU",
+          time: "3 hours ago",
+          img: "2.png",
+        },
+        {
+          id: 5,
+          title: "Black Phone",
+          type: "lost",
+          inst: "MAJU",
+          time: "6 days ago",
+          img: "1.png",
+        },
+        {
+          id: 6,
+          title: "Wallet brown",
+          type: "found",
+          inst: "FAST",
+          time: "2 days ago",
+          img: "2.png",
+        },
+      ];
+
+      function getInstitute() {
+        return localStorage.getItem("vfind_institute") || "Unknown";
+      }
+
+      const cardsEl = document.getElementById("cards");
+      const numLost = document.getElementById("numLost");
+      const numFound = document.getElementById("numFound");
+      const numReturned = document.getElementById("numReturned");
+      const numUsers = document.getElementById("numUsers");
+      const instBadge = document.getElementById("instBadge");
+
+      function renderDashboard() {
+        const inst = getInstitute();
+        instBadge.textContent = inst;
+
+        const filteredReports = allReports.filter((r) => r.inst === inst);
+        const maxCards = 4;
+        const displayReports = filteredReports.slice(0, maxCards);
+
+        numLost.textContent = filteredReports.filter(
+          (r) => r.type === "lost"
+        ).length;
+        numFound.textContent = filteredReports.filter(
+          (r) => r.type === "found"
+        ).length;
+        numReturned.textContent = Math.floor(filteredReports.length / 3);
+        numUsers.textContent = Math.floor(Math.random() * 900) + 100;
+
+        cardsEl.innerHTML = "";
+        displayReports.forEach((r) => {
+          const card = document.createElement("div");
+          card.className = "item-card";
+          card.innerHTML = `
+            <div class="item-thumb"><img src="${r.img}" alt="${
+            r.title
+          }" loading="lazy"></div>
+            <div class="item-meta">
+              <div class="title">${r.title} 
+                <span style="font-weight:600;color:#dff7f7">· ${inst}</span>
+              </div>
+              <div class="sub">${
+                r.type.charAt(0).toUpperCase() + r.type.slice(1)
+              } • ${r.time}</div>
+            </div>
+            <div style="margin-left:auto">
+              <button class="btn btn-primary small" data-id="${
+                r.id
+              }">View</button>
+            </div>`;
+          cardsEl.appendChild(card);
+        });
+
+        cardsEl.querySelectorAll("button[data-id]").forEach((b) => {
+          b.addEventListener("click", () => {
+            alert(
+              `(Demo) ${allReports.find((x) => x.id == b.dataset.id).title}`
+            );
+          });
+        });
+      }
+
+      document
+        .getElementById("btnLost")
+        .addEventListener("click", () => (location.href = "lost.html"));
+      document
+        .getElementById("btnFound")
+        .addEventListener("click", () => (location.href = "found.html"));
+      document
+        .getElementById("btnSearch")
+        .addEventListener("click", () => (location.href = "search.html"));
+
+      /* -----------------------------  
+         UPDATED SIGN OUT FUNCTION  
+      ----------------------------- */
+      document.getElementById("signOut").addEventListener("click", () => {
+        localStorage.removeItem("vfind_institute");
+        window.location.href = "institute.html"; // redirect
+      });
+
+      window.addEventListener("DOMContentLoaded", () => renderDashboard());
+    </script>
+  </body>
+</html>

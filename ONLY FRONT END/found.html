@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VFind — Found Items</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <style>
+      /* ===== GLOBAL THEME ===== */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+      body {
+        min-height: 100vh;
+        background: radial-gradient(
+            700px 320px at 12% 8%,
+            rgba(0, 224, 255, 0.06),
+            transparent 12%
+          ),
+          radial-gradient(
+            560px 260px at 90% 86%,
+            rgba(255, 210, 77, 0.05),
+            transparent 8%
+          ),
+          linear-gradient(180deg, #04121a 0%, #08171b 100%);
+        color: #e6f7f7;
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      /* NAVBAR */
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 28px;
+        background: linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.02),
+          rgba(255, 255, 255, 0.01)
+        );
+        backdrop-filter: blur(6px);
+        position: sticky;
+        top: 0;
+        z-index: 60;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+      }
+      .nav-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .nav-logo {
+        width: 52px;
+        height: 52px;
+        object-fit: contain;
+        border-radius: 10px;
+        padding: 6px;
+        background: rgba(255, 255, 255, 0.03);
+      }
+      .brand-name {
+        font-weight: 700;
+        color: #dff9f9;
+      }
+      .brand-sub {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.55);
+      }
+      .nav-links {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        list-style: none;
+      }
+      .nav-links a {
+        padding: 8px 10px;
+        border-radius: 6px;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.85);
+      }
+      .nav-links a.active {
+        background: linear-gradient(90deg, #00e0ff, #ffd24d);
+        color: #042b33;
+      }
+      .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .btn {
+        padding: 9px 14px;
+        border-radius: 10px;
+        border: 0;
+        cursor: pointer;
+        font-weight: 700;
+      }
+      .btn-primary {
+        background: linear-gradient(90deg, #00e0ff, #ffd24d);
+        color: #042b33;
+      }
+
+      /* PAGE TITLE */
+      .page-title {
+        font-size: 2.5rem;
+        text-align: center;
+        margin: 40px 0;
+        color: #e6f7f7;
+      }
+
+      /* SEARCH AREA */
+      .search-area {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        margin-bottom: 32px;
+        flex-wrap: wrap;
+        padding: 0 10px;
+      }
+      .search-input {
+        padding: 12px 20px;
+        border-radius: 40px;
+        background: rgba(0, 0, 0, 0.25);
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        color: #e6f7f7;
+        min-width: 200px;
+        flex: 1;
+        max-width: 400px;
+      }
+
+      /* REPORT FOUND BUTTON */
+      .report-btn {
+        padding: 12px 24px;
+        border-radius: 25px;
+        background: linear-gradient(135deg, #00e0ff, #ffd24d);
+        border: none;
+        color: #042b33;
+        font-weight: 700;
+        cursor: pointer;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        transition: all 0.3s ease;
+      }
+      .report-btn:hover {
+        transform: translateY(-3px) scale(1.05);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.6);
+      }
+
+      /* ITEM CARDS GRID */
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 20px;
+        padding: 0 5vw;
+        margin-bottom: 60px;
+      }
+      .card {
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.015),
+          rgba(255, 255, 255, 0.01)
+        );
+        border-radius: 16px;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.03);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+      .card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6);
+      }
+      .card picture img {
+        width: 100%;
+        height: auto;
+        max-height: 200px;
+        border-radius: 12px;
+        object-fit: contain;
+        display: block;
+        background: #0a1a27;
+      }
+      .card h3 {
+        font-weight: 700;
+        color: #dff7f7;
+        font-size: 1.2rem;
+      }
+      .card p {
+        font-size: 0.9rem;
+        color: rgba(230, 247, 247, 0.8);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .contact-btn {
+        margin-top: 8px;
+        padding: 10px 16px;
+        border-radius: 12px;
+        border: none;
+        background: linear-gradient(180deg, #ff6b6b, #ff4a4a);
+        color: white;
+        font-weight: 700;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+      .contact-btn:hover {
+        transform: scale(1.05);
+      }
+      .badge {
+        padding: 4px 10px;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: white;
+        background: #00e0ff;
+        align-self: flex-start;
+      }
+
+      /* MODAL FORM */
+      #modalOverlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0, 0, 0, 0.6);
+        justify-content: center;
+        align-items: center;
+        z-index: 999;
+      }
+      #modal {
+        background: #071822;
+        padding: 24px;
+        border-radius: 16px;
+        width: 90%;
+        max-width: 400px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      #modal h3 {
+        color: #dff7f7;
+        margin-bottom: 8px;
+        text-align: center;
+      }
+      #modal input,
+      #modal textarea {
+        padding: 12px;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(0, 0, 0, 0.25);
+        color: #e6f7f7;
+        width: 100%;
+      }
+      #modal textarea {
+        resize: none;
+        height: 80px;
+      }
+      #modal .modal-buttons {
+        display: flex;
+        gap: 10px;
+        justify-content: flex-end;
+        margin-top: 8px;
+      }
+      #modal .modal-buttons button {
+        flex: 1;
+        cursor: pointer;
+        border-radius: 25px;
+        padding: 10px 16px;
+        font-weight: 700;
+        transition: all 0.3s ease;
+      }
+      #modal .btn-cancel {
+        background: linear-gradient(135deg, #555, #333);
+        border: none;
+        color: #e6f7f7;
+      }
+      #modal .btn-cancel:hover {
+        transform: translateY(-2px) scale(1.03);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+      }
+      #modal .btn-submit {
+        background: linear-gradient(135deg, #00e0ff, #ffd24d);
+        border: none;
+        color: #042b33;
+      }
+      #modal .btn-submit:hover {
+        transform: translateY(-2px) scale(1.03);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+      }
+
+      /* FOOTER */
+      .footer {
+        padding: 28px 5vw;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.01),
+          rgba(255, 255, 255, 0.005)
+        );
+        display: flex;
+        gap: 18px;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        border-top: 1px solid rgba(255, 255, 255, 0.02);
+      }
+      .f-col {
+        min-width: 180px;
+      }
+      .foot-logo {
+        width: 68px;
+        border-radius: 10px;
+        margin-bottom: 8px;
+      }
+      .muted {
+        color: rgba(255, 255, 255, 0.6);
+      }
+      @media (max-width: 900px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+        .search-area {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <header class="nav">
+      <div class="nav-left">
+        <img src="LOGO.png" alt="VFind logo" class="nav-logo" />
+        <div>
+          <div class="brand-name">VFind</div>
+          <div class="brand-sub">Lost & Found</div>
+        </div>
+      </div>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="home.html">Home</a></li>
+          <li><a href="lost.html">Lost</a></li>
+          <li><a class="active" href="#">Found</a></li>
+          <li><a href="search.html">Search</a></li>
+          <li><a href="profile.html">Profile</a></li>
+          <li><a href="about.html">About</a></li>
+        </ul>
+      </nav>
+      <div class="nav-right">
+        <!-- ✅ SIGN OUT FIXED -->
+        <button
+          class="btn btn-primary"
+          onclick="location.href='institute.html'"
+        >
+          Sign Out
+        </button>
+      </div>
+    </header>
+
+    <!-- PAGE TITLE -->
+    <h1 class="page-title">Found Items</h1>
+
+    <!-- SEARCH + REPORT BTN -->
+    <div class="search-area">
+      <input
+        type="text"
+        placeholder="Search Found Item..."
+        class="search-input"
+        id="searchInput"
+      />
+      <button class="report-btn" id="reportBtn">Report Found</button>
+    </div>
+
+    <!-- FOUND ITEMS GRID -->
+    <div class="grid" id="foundGrid"></div>
+
+    <!-- MODAL FORM -->
+    <div id="modalOverlay">
+      <div id="modal">
+        <h3>Report Found Item</h3>
+        <input type="text" id="itemTitle" placeholder="Item Name" required />
+        <textarea id="itemDesc" placeholder="Description"></textarea>
+        <input type="text" id="itemLocation" placeholder="Location" />
+        <input type="date" id="itemDate" />
+        <input type="text" id="itemImg" placeholder="Image URL (optional)" />
+        <input type="text" id="itemBadge" placeholder="Badge/Tag (optional)" />
+        <div class="modal-buttons">
+          <button class="btn-cancel" id="modalCancel">Cancel</button>
+          <button class="btn-submit" id="modalSubmit">Submit</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="f-col">
+        <img src="LOGO.png" class="foot-logo" alt="VFind logo" />
+        <div class="muted">
+          VFind — Simple & fast lost-and-found for your institute.
+        </div>
+      </div>
+      <div class="f-col">
+        <h4 style="color: #dff7f7">Site</h4>
+        <a href="lost.html">Report Lost</a>
+        <a href="found.html">Report Found</a>
+      </div>
+      <div class="f-col">
+        <h4 style="color: #dff7f7">Help</h4>
+        <a href="#">Customer Support</a>
+        <a href="#">Privacy</a>
+      </div>
+      <div class="f-col">
+        <h4 style="color: #dff7f7">Contact</h4>
+        <div class="muted">support@vfind.com</div>
+        <div class="muted">+92 765 432 000</div>
+      </div>
+    </footer>
+
+    <script>
+      const foundItems = [
+        {
+          title: "Smart Watch",
+          date: "2024-11-23",
+          location: "Gym",
+          desc: "Black smart watch, Fitbit.",
+          img: "watch.avif",
+          badge: "New",
+        },
+        {
+          title: "Sunglasses",
+          date: "2024-11-22",
+          location: "Cafeteria",
+          desc: "Ray-Ban aviator sunglasses.",
+          img: "glasses.avif",
+        },
+        {
+          title: "Notebook",
+          date: "2024-11-21",
+          location: "Library",
+          desc: "Red spiral notebook with notes.",
+          img: "notebook.webp",
+        },
+        {
+          title: "Keychain",
+          date: "2024-11-20",
+          location: "Auditorium",
+          desc: "Metal keychain with keys.",
+          img: "keychain.webp",
+          badge: "Recovered",
+        },
+      ];
+
+      const grid = document.getElementById("foundGrid");
+
+      function renderItems(items) {
+        grid.innerHTML = "";
+        items.forEach((item) => {
+          const card = document.createElement("div");
+          card.className = "card";
+          const imgType = item.img.endsWith(".avif")
+            ? "image/avif"
+            : "image/webp";
+          card.innerHTML = `
+            ${item.badge ? `<span class="badge">${item.badge}</span>` : ""}
+            <picture>
+              <source srcset="${item.img}" type="${imgType}">
+              <img src="${item.img}" alt="${item.title}">
+            </picture>
+            <h3>${item.title}</h3>
+            <p><i class="fa-solid fa-calendar-days"></i> ${item.date}</p>
+            <p><i class="fa-solid fa-location-dot"></i> ${item.location}</p>
+            <p><i class="fa-solid fa-info-circle"></i> ${item.desc}</p>
+            <button class="contact-btn"><i class="fa-solid fa-phone"></i> Contact</button>
+          `;
+          grid.appendChild(card);
+        });
+      }
+
+      renderItems(foundItems);
+
+      document.getElementById("searchInput").addEventListener("input", (e) => {
+        const filter = e.target.value.toLowerCase();
+        renderItems(
+          foundItems.filter((i) => i.title.toLowerCase().includes(filter))
+        );
+      });
+
+      const reportBtn = document.getElementById("reportBtn");
+      const modalOverlay = document.getElementById("modalOverlay");
+      const modalCancel = document.getElementById("modalCancel");
+      const modalSubmit = document.getElementById("modalSubmit");
+
+      reportBtn.addEventListener(
+        "click",
+        () => (modalOverlay.style.display = "flex")
+      );
+      modalCancel.addEventListener(
+        "click",
+        () => (modalOverlay.style.display = "none")
+      );
+      modalOverlay.addEventListener("click", (e) => {
+        if (e.target === modalOverlay) modalOverlay.style.display = "none";
+      });
+
+      modalSubmit.addEventListener("click", () => {
+        const title = document.getElementById("itemTitle").value.trim();
+        const desc = document.getElementById("itemDesc").value.trim();
+        const location = document.getElementById("itemLocation").value.trim();
+        const date =
+          document.getElementById("itemDate").value ||
+          new Date().toISOString().split("T")[0];
+        const img =
+          document.getElementById("itemImg").value.trim() || "found.png";
+        const badge = document.getElementById("itemBadge").value.trim();
+        if (!title || !desc || !location) {
+          alert("Please fill all required fields.");
+          return;
+        }
+        foundItems.push({ title, date, location, desc, img, badge });
+        renderItems(foundItems);
+        modalOverlay.style.display = "none";
+        document.getElementById("itemTitle").value = "";
+        document.getElementById("itemDesc").value = "";
+        document.getElementById("itemLocation").value = "";
+        document.getElementById("itemDate").value = "";
+        document.getElementById("itemImg").value = "";
+        document.getElementById("itemBadge").value = "";
+      });
+
+      document.addEventListener("click", function (e) {
+        if (e.target.closest(".contact-btn")) {
+          window.location.href = "contact.html";
+        }
+      });
+    </script>
+  </body>
+</html>

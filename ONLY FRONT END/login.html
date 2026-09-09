@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login / Register - VFind</title>
+    <link rel="stylesheet" href="style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <script
+      src="https://kit.fontawesome.com/a076d05399.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <div class="bg"></div>
+
+    <div class="auth-container">
+      <div class="tabs">
+        <button id="loginTab" class="active">Login</button>
+        <button id="registerTab">Register</button>
+      </div>
+
+      <!-- LOGIN FORM -->
+      <form id="loginForm" class="form active" autocomplete="off">
+        <h2>Welcome Back 👋</h2>
+        <p>Login to your VFind account</p>
+        <input
+          id="loginEmail"
+          type="email"
+          placeholder="Email / Student ID"
+          required
+          autocomplete="off"
+        />
+        <input
+          id="loginPass"
+          type="password"
+          placeholder="Password"
+          required
+          autocomplete="off"
+        />
+        <button type="submit">Login</button>
+        <a href="#" class="forgot">Forgot Password?</a>
+      </form>
+
+      <!-- REGISTER FORM -->
+      <form id="registerForm" class="form" autocomplete="off">
+        <h2>Create Account 🎓</h2>
+        <p>Register with your institute email</p>
+        <input
+          id="regName"
+          type="text"
+          placeholder="Full Name"
+          required
+          autocomplete="off"
+        />
+        <input
+          id="regEmail"
+          type="email"
+          placeholder="Email / Student ID"
+          required
+          autocomplete="off"
+        />
+        <input
+          id="regPhone"
+          type="tel"
+          placeholder="Phone (optional)"
+          autocomplete="off"
+        />
+        <input
+          id="regPass"
+          type="password"
+          placeholder="Password"
+          required
+          autocomplete="off"
+        />
+        <input
+          id="regCPass"
+          type="password"
+          placeholder="Confirm Password"
+          required
+          autocomplete="off"
+        />
+        <button type="submit">Register</button>
+      </form>
+    </div>
+
+    <img src="LOGO.png" alt="VFind Logo" class="corner-logo" />
+
+    <script>
+      const loginTab = document.getElementById("loginTab");
+      const registerTab = document.getElementById("registerTab");
+      const loginForm = document.getElementById("loginForm");
+      const registerForm = document.getElementById("registerForm");
+
+      // TAB SWITCH
+      loginTab.onclick = () => {
+        loginTab.classList.add("active");
+        registerTab.classList.remove("active");
+        loginForm.classList.add("active");
+        registerForm.classList.remove("active");
+      };
+      registerTab.onclick = () => {
+        registerTab.classList.add("active");
+        loginTab.classList.remove("active");
+        registerForm.classList.add("active");
+        loginForm.classList.remove("active");
+      };
+
+      // REDIRECT IF NO INSTITUTE
+      const selectedInstitute = localStorage.getItem("vfind_institute");
+      if (!selectedInstitute) window.location.href = "institute.html";
+
+      // LOGIN HANDLER
+      loginForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const email = document.getElementById("loginEmail").value.trim();
+        const pass = document.getElementById("loginPass").value.trim();
+        if (!email || !pass) return alert("Fill all fields!");
+
+        const user = { email, institute: selectedInstitute };
+        localStorage.setItem("vfindUser", JSON.stringify(user));
+        window.location.href = "home.html";
+      });
+
+      // REGISTER HANDLER
+      registerForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const name = document.getElementById("regName").value.trim();
+        const email = document.getElementById("regEmail").value.trim();
+        const phone = document.getElementById("regPhone").value.trim();
+        const pass = document.getElementById("regPass").value.trim();
+        const cpass = document.getElementById("regCPass").value.trim();
+        if (pass !== cpass) return alert("Passwords do not match!");
+
+        const user = { name, email, phone, institute: selectedInstitute };
+        localStorage.setItem("vfindUser", JSON.stringify(user));
+        window.location.href = "home.html";
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,435 @@
+/* =========================================================
+   VFind - Splash Screen (Advanced Two-File Setup)
+   Clean glow, gradient text, fade-out transition
+   ========================================================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;   /* 👈 keeps space above & below */
+  align-items: center;
+  background: linear-gradient(135deg, #020202 10%, #051821 40%, #002b36 90%);
+  font-family: "Poppins", sans-serif;
+  color: white;
+  overflow: hidden;
+  animation: fadeIn 1.5s ease-in forwards;
+  padding-top: 80px;             /* 👈 logo ko thoda neeche laane ke liye */
+}
+
+/* ===== LOGO ===== */
+.logo-container {
+  animation: float 3s ease-in-out infinite alternate;
+}
+
+.logo-container img {
+  width: 160px;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 0 35px rgba(0, 229, 255, 0.6))
+          drop-shadow(0 0 60px rgba(255, 255, 0, 0.3));
+  animation: glow 3s ease-in-out infinite alternate;
+}
+
+/* ===== TITLE (SVG Gradient) ===== */
+.title-wrapper {
+  width: 100%;
+  max-width: 500px;
+  margin-top: 40px;  /* 👈 extra spacing below logo */
+}
+
+svg {
+  width: 100%;
+  height: 90px;
+}
+
+text {
+  font-family: "Poppins", sans-serif;
+  font-size: 72px;
+  font-weight: 800;
+  letter-spacing: 6px;
+  fill: url(#grad);
+  filter: drop-shadow(0 0 20px rgba(0, 229, 255, 0.4));
+}
+
+/* ===== TAGLINE ===== */
+.tagline {
+  font-size: 1rem;
+  color: #b7d6e0;
+  margin-top: 10px;
+  letter-spacing: 1px;
+  animation: fadeUp 2s ease-in-out;
+}
+
+/* ===== LOADING BAR ===== */
+.loading-bar {
+  margin-top: 40px;
+  width: 150px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+.loading-bar::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 35%;
+  height: 100%;
+  background: linear-gradient(90deg, #00e0ff, #fff700);
+  border-radius: 10px;
+  animation: load 2.8s ease-in-out infinite;
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+  from { opacity: 1; transform: scale(1); }
+  to { opacity: 0; transform: scale(1.05); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes float {
+  from { transform: translateY(0); }
+  to { transform: translateY(-10px); }
+}
+
+@keyframes glow {
+  0% {
+    filter: drop-shadow(0 0 30px rgba(0, 229, 255, 0.3))
+            drop-shadow(0 0 60px rgba(255, 255, 0, 0.2));
+  }
+  100% {
+    filter: drop-shadow(0 0 55px rgba(0, 229, 255, 0.8))
+            drop-shadow(0 0 90px rgba(255, 255, 0, 0.4));
+  }
+}
+
+@keyframes load {
+  0% { left: -40%; }
+  50% { left: 100%; }
+  100% { left: -40%; }
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 480px) {
+  text { font-size: 48px; letter-spacing: 3px; }
+  .logo-container img { width: 120px; }
+  .loading-bar { width: 120px; }
+  body { padding-top: 60px; }
+}
+
+
+
+
+
+
+
+/* GLOBAL */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html, body {
+  width: 100%;
+  height: 100%;
+  font-family: 'Poppins', sans-serif;
+  overflow: hidden;
+}
+
+/* BACKGROUND */
+.page-bg {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(120deg, rgba(0,224,255,0.4), rgba(255,247,0,0.4)),
+             url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=1920&q=80')
+             center/cover no-repeat;
+  filter: brightness(0.7);
+  animation: zoom 18s ease-in-out infinite alternate;
+  z-index: -2;
+}
+
+/* FLOATING ICONS */
+.floating-icons i {
+  position: absolute;
+  font-size: 3rem;
+  color: rgba(255,255,255,0.2);
+  animation: float 15s ease-in-out infinite;
+}
+.floating-icons i:nth-child(1) { top: 15%; left: 10%; }
+.floating-icons i:nth-child(2) { top: 70%; left: 30%; animation-delay: 2s; }
+.floating-icons i:nth-child(3) { top: 40%; left: 80%; animation-delay: 5s; }
+.floating-icons i:nth-child(4) { top: 85%; left: 60%; animation-delay: 7s; }
+
+/* MAIN CONTAINER */
+.institute-container {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #fff;
+  backdrop-filter: blur(5px);
+  padding: 20px;
+}
+
+/* HEADING */
+.institute-container h1 {
+  font-size: 2.3rem;
+  font-weight: 700;
+  background: linear-gradient(90deg, #00e0ff, #fff700);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin-bottom: 15px;
+}
+.institute-container p {
+  font-size: 1.1rem;
+  margin-bottom: 25px;
+}
+
+/* FORM */
+form {
+  background: rgba(255,255,255,0.15);
+  padding: 30px 25px;
+  border-radius: 15px;
+  box-shadow: 0 0 20px rgba(0,229,255,0.3);
+  width: min(90%, 400px);
+}
+
+select, button {
+  width: 100%;
+  padding: 12px 14px;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+  margin-top: 10px;
+  outline: none;
+}
+
+select {
+  background: #fff;
+  color: #002b36;
+  font-weight: 500;
+}
+select:focus {
+  box-shadow: 0 0 12px rgba(0,229,255,0.5);
+}
+
+button {
+  background: linear-gradient(90deg, #00e0ff, #fff700);
+  color: #002b36;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s ease;
+}
+button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(0,229,255,0.6);
+}
+
+/* ERROR */
+.error {
+  color: #ff4c4c;
+  font-size: 0.9rem;
+  margin-top: 8px;
+  min-height: 20px;
+}
+
+/* LOGO */
+.corner-logo {
+  position: fixed;
+  bottom: 20px;
+  right: 25px;
+  width: 80px;
+  height: auto;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  -ms-interpolation-mode: nearest-neighbor;
+  filter: brightness(1.1) drop-shadow(0 0 15px rgba(0,229,255,0.9));
+  transition: 0.3s ease;
+  z-index: 10;
+}
+.corner-logo:hover {
+  transform: scale(1.05);
+}
+
+/* ANIMATIONS */
+@keyframes zoom {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.1); }
+}
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-25px); }
+}
+
+
+
+
+
+
+
+
+/* LOGIN/REGISTER PAGE STYLES */
+/* 🔹 BACKGROUND */
+.bg {
+    position: fixed;
+    inset: 0;
+    background: 
+        linear-gradient(120deg, rgba(0,224,255,0.4), rgba(255,247,0,0.3)),
+        url("https://images.unsplash.com/photo-1584697964154-ef6d3a3ef9ad?auto=format&fit=crop&w=1920&q=80")
+        center/cover no-repeat;
+    z-index: -1;
+    filter: brightness(0.7);
+    animation: zoom 15s ease-in-out infinite alternate;
+}
+
+/* 🔹 MAIN CONTAINER */
+.auth-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(90%, 420px);
+    padding: 30px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    box-shadow: 0 0 30px rgba(0,229,255,0.4);
+    color: #fff;
+    text-align: center;
+}
+
+/* 🔹 TABS */
+.tabs {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.tabs button {
+    flex: 1;
+    padding: 12px;
+    font-weight: 600;
+    background: transparent;
+    color: #fff;
+    border: none;
+    border-bottom: 3px solid transparent;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.tabs button.active {
+    border-bottom: 3px solid #00e0ff;
+    color: #fff700;
+}
+
+/* 🔹 FORMS */
+.form {
+    display: none;
+    flex-direction: column;
+}
+
+.form.active {
+    display: flex;
+}
+
+.form h2 {
+    margin-bottom: 8px;
+    background: linear-gradient(90deg, #00e0ff, #fff700);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.form p {
+    font-size: 0.95rem;
+    color: #cde7ee;
+    margin-bottom: 18px;
+}
+
+/* 🔹 INPUTS */
+input {
+    margin: 8px 0;
+    padding: 12px 14px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+}
+
+/* 🔹 BUTTONS */
+button {
+    margin-top: 12px;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background: linear-gradient(90deg, #00e0ff, #fff700);
+    color: #002b36;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(0,229,255,0.5);
+}
+
+/* 🔹 FORGOT PASSWORD */
+.forgot {
+    color: #fff;
+    font-size: 0.9rem;
+    margin-top: 8px;
+    display: inline-block;
+    opacity: 0.8;
+}
+
+.forgot:hover {
+    opacity: 1;
+    text-decoration: underline;
+}
+
+/* 🔹 CORNER LOGO */
+.corner-logo {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    width: 90px;
+    filter: drop-shadow(0 0 15px rgba(0,229,255,0.6));
+    opacity: 0.9;
+}
+
+/* 🔹 ZOOM ANIMATION */
+@keyframes zoom {
+    from { transform: scale(1); }
+    to   { transform: scale(1.1); }
+}
+
+
+
+
+
