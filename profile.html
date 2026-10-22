@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VFind — Profile</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <style>
+      /* ===== GLOBAL THEME ===== */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+      body {
+        min-height: 100vh;
+        background: radial-gradient(
+            700px 320px at 12% 8%,
+            rgba(0, 224, 255, 0.06),
+            transparent 12%
+          ),
+          radial-gradient(
+            560px 260px at 90% 86%,
+            rgba(255, 210, 77, 0.05),
+            transparent 8%
+          ),
+          linear-gradient(180deg, #04121a 0%, #08171b 100%);
+        color: #e6f7f7;
+        -webkit-font-smoothing: antialiased;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 0;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      /* NAVBAR */
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 95%;
+        max-width: 1000px;
+        padding: 12px 28px;
+        background: linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.02),
+          rgba(255, 255, 255, 0.01)
+        );
+        backdrop-filter: blur(6px);
+        position: sticky;
+        top: 0;
+        z-index: 60;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+        border-radius: 12px;
+        margin-bottom: 40px;
+      }
+      .nav-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .nav-logo {
+        width: 52px;
+        height: 52px;
+        object-fit: contain;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.03);
+      }
+      .brand-name {
+        font-weight: 700;
+        color: #dff9f9;
+      }
+      .brand-sub {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.55);
+      }
+      .nav-links {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        list-style: none;
+      }
+      .nav-links a {
+        padding: 8px 10px;
+        border-radius: 6px;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.85);
+      }
+      .nav-links a.active {
+        background: linear-gradient(90deg, #00e0ff, #ffd24d);
+        color: #042b33;
+      }
+      .nav-right .btn {
+        padding: 8px 14px;
+        border-radius: 10px;
+        border: 0;
+        background: linear-gradient(90deg, #00e0ff, #ffd24d);
+        color: #042b33;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      /* PROFILE CARD */
+      .profile-card {
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.015),
+          rgba(255, 255, 255, 0.01)
+        );
+        padding: 30px 40px;
+        border-radius: 20px;
+        width: 95%;
+        max-width: 450px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+      }
+      .avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 3px solid #00e0ff;
+        box-shadow: 0 8px 20px rgba(0, 224, 255, 0.25);
+      }
+      .avatar img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      h2 {
+        font-size: 1.8rem;
+        color: #dff7f7;
+      }
+      p {
+        color: rgba(230, 247, 247, 0.8);
+        font-size: 0.95rem;
+        margin-bottom: 5px;
+      }
+
+      /* FORM FIELDS */
+      .profile-form {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-top: 10px;
+      }
+      .profile-form label {
+        font-size: 0.9rem;
+        color: rgba(230, 247, 247, 0.8);
+      }
+      .profile-form input {
+        padding: 12px 14px;
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.03);
+        color: #e6f7f7;
+        font-size: 0.95rem;
+        transition: 0.2s;
+      }
+      .profile-form input:focus {
+        outline: none;
+        border: 1px solid #00e0ff;
+        box-shadow: 0 0 8px #00e0ff;
+      }
+      .profile-form button {
+        margin-top: 10px;
+        padding: 12px;
+        border-radius: 12px;
+        border: none;
+        background: linear-gradient(90deg, #00e0ff, #6aff3d);
+        color: #042b33;
+        font-weight: 700;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+      .profile-form button:hover {
+        transform: scale(1.05);
+      }
+
+      /* FOOTER */
+      .footer {
+        padding: 28px 5vw;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.01),
+          rgba(255, 255, 255, 0.005)
+        );
+        display: flex;
+        gap: 18px;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        border-top: 1px solid rgba(255, 255, 255, 0.02);
+      }
+      .f-col {
+        min-width: 180px;
+      }
+      .foot-logo {
+        width: 68px;
+        border-radius: 10px;
+        margin-bottom: 8px;
+      }
+      .muted {
+        color: rgba(255, 255, 255, 0.6);
+      }
+
+      @media (max-width: 500px) {
+        .profile-card {
+          padding: 25px 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <header class="nav">
+      <div class="nav-left">
+        <img src="LOGO.png" alt="logo" class="nav-logo" />
+        <div>
+          <div class="brand-name">VFind</div>
+          <div class="brand-sub">Lost & Found</div>
+        </div>
+      </div>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="home.html">Home</a></li>
+          <li><a href="lost.html">Lost</a></li>
+          <li><a href="found.html">Found</a></li>
+          <li><a href="search.html">Search</a></li>
+          <li><a class="active" href="#">Profile</a></li>
+          <li><a href="about.html">About</a></li>
+        </ul>
+      </nav>
+      <div class="nav-right">
+        <button id="signOut" class="btn">Sign Out</button>
+      </div>
+    </header>
+
+    <!-- PROFILE CARD -->
+    <div class="profile-card">
+      <div class="avatar">
+        <img src="face.avif" alt="User Avatar" />
+      </div>
+      <h2 id="userName">User Name</h2>
+      <p id="userEmail">
+        <i class="fa-solid fa-envelope"></i> user@example.com
+      </p>
+      <p id="userPhone"><i class="fa-solid fa-phone"></i> +92 300 0000000</p>
+
+      <form class="profile-form">
+        <div>
+          <label for="name">Full Name</label>
+          <input type="text" id="name" />
+        </div>
+        <div>
+          <label for="email">Email</label>
+          <input type="email" id="email" />
+        </div>
+        <div>
+          <label for="phone">Phone</label>
+          <input type="text" id="phone" />
+        </div>
+        <button type="button" id="saveProfile">Save Changes</button>
+      </form>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="f-col">
+        <img src="LOGO.png" class="foot-logo" alt="VFind logo" />
+        <div class="muted">
+          VFind — Simple & fast lost-and-found for your institute.
+        </div>
+      </div>
+      <div class="f-col">
+        <h4 style="color: #dff7f7">Site</h4>
+        <a href="lost.html">Report Lost</a>
+        <a href="found.html">Report Found</a>
+      </div>
+      <div class="f-col">
+        <h4 style="color: #dff7f7">Help</h4>
+        <a href="#">Customer Support</a>
+        <a href="#">Privacy</a>
+      </div>
+      <div class="f-col">
+        <h4 style="color: #dff7f7">Contact</h4>
+        <div class="muted">support@vfind.com</div>
+        <div class="muted">+92 765 432 000</div>
+      </div>
+    </footer>
+
+    <script>
+      // Load registration/login data if available
+      let currentUser = JSON.parse(localStorage.getItem("vfind_user")) || {
+        name: "",
+        email: "",
+        phone: "",
+      };
+
+      function loadProfile() {
+        document.getElementById("userName").textContent =
+          currentUser.name || "User Name";
+        document.getElementById("userEmail").textContent = currentUser.email
+          ? currentUser.email
+          : "user@example.com";
+        document.getElementById("userPhone").textContent = currentUser.phone
+          ? currentUser.phone
+          : "+92 300 0000000";
+
+        document.getElementById("name").value = currentUser.name;
+        document.getElementById("email").value = currentUser.email;
+        document.getElementById("phone").value = currentUser.phone;
+      }
+
+      loadProfile();
+
+      document.getElementById("saveProfile").addEventListener("click", () => {
+        currentUser.name = document.getElementById("name").value;
+        currentUser.email = document.getElementById("email").value;
+        currentUser.phone = document.getElementById("phone").value;
+        localStorage.setItem("vfind_user", JSON.stringify(currentUser));
+        loadProfile();
+        alert("Profile updated!");
+      });
+
+      document.getElementById("signOut").addEventListener("click", () => {
+        localStorage.removeItem("vfind_institute");
+        localStorage.removeItem("vfind_user");
+        location.href = "institute.html";
+      });
+    </script>
+  </body>
+</html>

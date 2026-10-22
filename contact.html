@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact — Chat</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+      body {
+        background: #04121a;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+      .header {
+        padding: 15px 20px;
+        background: #062029;
+        color: #dff7f7;
+        font-size: 1.2rem;
+        font-weight: 700;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .chat-box {
+        flex: 1;
+        padding: 20px;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .msg {
+        max-width: 70%;
+        padding: 12px;
+        border-radius: 12px;
+        font-size: 0.95rem;
+        line-height: 1.4;
+      }
+      .me {
+        background: #00e0ff;
+        color: #03262e;
+        align-self: flex-end;
+      }
+      .them {
+        background: #06293a;
+        color: #dff7f7;
+        align-self: flex-start;
+      }
+      .input-area {
+        display: flex;
+        padding: 10px;
+        background: #062029;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+        gap: 10px;
+      }
+      input {
+        flex: 1;
+        padding: 12px;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.05);
+        color: white;
+      }
+      button {
+        padding: 12px 18px;
+        border-radius: 10px;
+        border: none;
+        background: linear-gradient(90deg, #00e0ff, #ffd24d);
+        color: #03262e;
+        font-weight: 700;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">Chat with Finder</div>
+
+    <div class="chat-box" id="chat">
+      <div class="msg them">Hello! I found your item. How can I help?</div>
+    </div>
+
+    <div class="input-area">
+      <input type="text" id="msgInput" placeholder="Type a message..." />
+      <button onclick="sendMsg()">Send</button>
+    </div>
+
+    <script>
+      function sendMsg() {
+        let text = document.getElementById("msgInput").value.trim();
+        if (!text) return;
+
+        let box = document.getElementById("chat");
+        let msg = document.createElement("div");
+        msg.className = "msg me";
+        msg.innerText = text;
+        box.appendChild(msg);
+
+        document.getElementById("msgInput").value = "";
+        box.scrollTop = box.scrollHeight;
+      }
+    </script>
+  </body>
+</html>
