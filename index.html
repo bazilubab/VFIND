@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VFind - Splash Screen</title>
+
+  <!-- Link external CSS -->
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <!-- LOGO -->
+  <div class="logo-container">
+    <img src="LOGO.png" alt="VFind Logo">
+  </div>
+
+  <!-- SVG GRADIENT TITLE -->
+  <div class="title-wrapper">   
+    <svg viewBox="0 0 600 100">
+      <defs>  
+        <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" stop-color="#00e0ff" />
+          <stop offset="60%" stop-color="#8af2ff" />
+          <stop offset="100%" stop-color="#fff700" />
+        </linearGradient>
+      </defs>
+      <text x="50%" y="70%" text-anchor="middle">VFIND</text>
+    </svg>
+  </div>
+
+  <!-- TAGLINE -->
+  <p class="tagline">Connecting Lost Items to Their Owners</p>
+
+  <!-- LOADING BAR -->
+  <div class="loading-bar"></div>
+
+  <!-- Redirect Script with Fade-out -->
+  <script>
+    setTimeout(() => {
+      document.body.style.animation = 'fadeOut 1.5s ease forwards';
+      setTimeout(() => {
+        window.location.href = "institute.html";
+      }, 1500);
+    }, 4000);
+  </script>
+</body>
+</html> 
+
+
+
+
+
