@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VFind — About Us</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <style>
+      /* ===== GLOBAL THEME ===== */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+      body {
+        min-height: 100vh;
+        background: radial-gradient(
+            700px 320px at 12% 8%,
+            rgba(0, 224, 255, 0.06),
+            transparent 12%
+          ),
+          radial-gradient(
+            560px 260px at 90% 86%,
+            rgba(255, 210, 77, 0.05),
+            transparent 8%
+          ),
+          linear-gradient(180deg, #04121a 0%, #08171b 100%);
+        color: #e6f7f7;
+        -webkit-font-smoothing: antialiased;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px 0;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      /* NAVBAR */
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 95%;
+        max-width: 1000px;
+        padding: 12px 28px;
+        background: linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.02),
+          rgba(255, 255, 255, 0.01)
+        );
+        backdrop-filter: blur(6px);
+        position: sticky;
+        top: 0;
+        z-index: 60;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+        border-radius: 12px;
+        margin-bottom: 40px;
+      }
+      .nav-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .nav-logo {
+        width: 52px;
+        height: 52px;
+        object-fit: contain;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.03);
+      }
+      .brand-name {
+        font-weight: 700;
+        color: #dff9f9;
+      }
+      .brand-sub {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.55);
+      }
+      .nav-links {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        list-style: none;
+      }
+      .nav-links a {
+        padding: 8px 10px;
+        border-radius: 6px;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.85);
+      }
+      .nav-links a.active {
+        background: linear-gradient(90deg, #00e0ff, #ffd24d);
+        color: #042b33;
+      }
+      .nav-right .btn {
+        padding: 8px 14px;
+        border-radius: 10px;
+        border: 0;
+        background: linear-gradient(90deg, #00e0ff, #ffd24d);
+        color: #042b33;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      /* PAGE TITLE */
+      .page-title {
+        font-size: 2.5rem;
+        text-align: center;
+        margin: 20px 0;
+        color: #e6f7f7;
+      }
+      .page-title .accent {
+        background: linear-gradient(90deg, #00e0ff, #ffd24d);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        color: transparent;
+      }
+
+      /* TEAM GRID (V-shape) */
+      .team-container {
+        display: flex;
+        justify-content: center;
+        align-items: flex-end;
+        gap: 40px;
+        flex-wrap: wrap;
+        max-width: 900px;
+        margin-bottom: 60px;
+        position: relative;
+      }
+      .member {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        transition: transform 0.3s;
+      }
+      .member img {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        border: 3px solid #00e0ff;
+        box-shadow: 0 8px 20px rgba(0, 224, 255, 0.25);
+        object-fit: cover;
+      }
+      .member h3 {
+        color: #dff7f7;
+        font-size: 1.1rem;
+        text-align: center;
+      }
+
+      /* V-shape offsets */
+      .member:nth-child(1) {
+        transform: translateY(20px);
+      }
+      .member:nth-child(2) {
+        transform: translateY(10px);
+      }
+      .member:nth-child(3) {
+        transform: translateY(0);
+      }
+      .member:nth-child(4) {
+        transform: translateY(10px);
+      }
+      .member:nth-child(5) {
+        transform: translateY(20px);
+      }
+
+      /* FOOTER */
+      .footer {
+        padding: 28px 5vw;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.01),
+          rgba(255, 255, 255, 0.005)
+        );
+        display: flex;
+        gap: 18px;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        border-top: 1px solid rgba(255, 255, 255, 0.02);
+      }
+      .f-col {
+        min-width: 180px;
+      }
+      .foot-logo {
+        width: 68px;
+        border-radius: 10px;
+        margin-bottom: 8px;
+      }
+      .muted {
+        color: rgba(255, 255, 255, 0.6);
+      }
+
+      @media (max-width: 700px) {
+        .team-container {
+          flex-direction: column;
+          align-items: center;
+        }
+        .member {
+          transform: translateY(0);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <header class="nav">
+      <div class="nav-left">
+        <img src="LOGO.png" alt="logo" class="nav-logo" />
+        <div>
+          <div class="brand-name">VFind</div>
+          <div class="brand-sub">Lost & Found</div>
+        </div>
+      </div>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="home.html">Home</a></li>
+          <li><a href="lost.html">Lost</a></li>
+          <li><a href="found.html">Found</a></li>
+          <li><a href="search.html">Search</a></li>
+          <li><a href="profile.html">Profile</a></li>
+          <li><a class="active" href="#">About</a></li>
+        </ul>
+      </nav>
+      <div class="nav-right">
+        <button id="signOut" class="btn">Sign Out</button>
+      </div>
+    </header>
+
+    <!-- PAGE TITLE -->
+    <h1 class="page-title">Meet Our <span class="accent">Team</span></h1>
+
+    <!-- TEAM MEMBERS -->
+    <div class="team-container">
+      <div class="member">
+        <img src="areeb.jpg" alt="Areeb" />
+        <h3>Areeb</h3>
+      </div>
+      <div class="member">
+        <img src="bazil.jpg" alt="Bazil" />
+        <h3>Bazil</h3>
+      </div>
+      <div class="member">
+        <img src="marij.jpg" alt="Marij" />
+        <h3>Marij</h3>
+      </div>
+      <div class="member">
+        <img src="asad.jpg" alt="Asad" />
+        <h3>Asad</h3>
+      </div>
+      <div class="member">
+        <img src="sufiyan.jpg" alt="Sufiyan" />
+        <h3>Sufiyan</h3>
+      </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="f-col">
+        <img src="LOGO.png" class="foot-logo" alt="VFind logo" />
+        <div class="muted">
+          VFind — Simple & fast lost-and-found for your institute.
+        </div>
+      </div>
+      <div class="f-col">
+        <h4 style="color: #dff7f7">Site</h4>
+        <a href="lost.html">Report Lost</a>
+        <a href="found.html">Report Found</a>
+      </div>
+      <div class="f-col">
+        <h4 style="color: #dff7f7">Help</h4>
+        <a href="#">Customer Support</a>
+        <a href="#">Privacy</a>
+      </div>
+      <div class="f-col">
+        <h4 style="color: #dff7f7">Contact</h4>
+        <div class="muted">support@vfind.com</div>
+        <div class="muted">+92 765 432 000</div>
+      </div>
+    </footer>
+
+    <script>
+      // Sign Out function
+      document.getElementById("signOut").addEventListener("click", () => {
+        localStorage.removeItem("vfind_institute");
+        localStorage.removeItem("vfind_user"); // optional, clear user too
+        location.href = "institute.html";
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VFind — Search Items</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+    />
+    <style>
+      /* ===== GLOBAL THEME ===== */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+      body {
+        min-height: 100vh;
+        background: radial-gradient(
+            700px 320px at 12% 8%,
+            rgba(0, 224, 255, 0.06),
+            transparent 12%
+          ),
+          radial-gradient(
+            560px 260px at 90% 86%,
+            rgba(255, 210, 77, 0.05),
+            transparent 8%
+          ),
+          linear-gradient(180deg, #04121a 0%, #08171b 100%);
+        color: #e6f7f7;
+        -webkit-font-smoothing: antialiased;
+        overflow-x: hidden;
+      }
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      /* NAVBAR */
+      .nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 12px 28px;
+        background: linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0.02),
+          rgba(255, 255, 255, 0.01)
+        );
+        backdrop-filter: blur(6px);
+        position: sticky;
+        top: 0;
+        z-index: 60;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+      }
+      .nav-left {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      .nav-logo {
+        width: 52px;
+        height: 52px;
+        object-fit: contain;
+        border-radius: 10px;
+        padding: 6px;
+        background: rgba(255, 255, 255, 0.03);
+      }
+      .brand-name {
+        font-weight: 700;
+        color: #dff9f9;
+      }
+      .brand-sub {
+        font-size: 12px;
+        color: rgba(255, 255, 255, 0.55);
+      }
+      .nav-links {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        list-style: none;
+      }
+      .nav-links a {
+        padding: 8px 10px;
+        border-radius: 6px;
+        font-weight: 600;
+        color: rgba(255, 255, 255, 0.85);
+      }
+      .nav-links a.active {
+        background: linear-gradient(90deg, #00e0ff, #ffd24d);
+        color: #042b33;
+      }
+      .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+      .btn {
+        padding: 9px 14px;
+        border-radius: 10px;
+        border: 0;
+        cursor: pointer;
+        font-weight: 700;
+      }
+      .btn-primary {
+        background: linear-gradient(90deg, #00e0ff, #ffd24d);
+        color: #042b33;
+      }
+
+      /* PAGE TITLE */
+      .page-title {
+        font-size: 2.5rem;
+        text-align: center;
+        margin: 40px 0;
+        color: #e6f7f7;
+      }
+
+      /* SEARCH AREA */
+      .search-area {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        margin-bottom: 32px;
+        flex-wrap: wrap;
+        padding: 0 10px;
+      }
+      .search-input {
+        padding: 12px 20px;
+        border-radius: 40px;
+        background: rgba(0, 0, 0, 0.25);
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        color: #e6f7f7;
+        min-width: 200px;
+        flex: 2;
+        max-width: 500px;
+      }
+      .type-select {
+        padding: 12px 16px;
+        border-radius: 40px;
+        background: rgba(0, 0, 0, 0.25);
+        border: 1px solid rgba(255, 255, 255, 0.04);
+        color: #e6f7f7;
+        flex: 1;
+        max-width: 180px;
+      }
+      .search-btn {
+        padding: 12px 24px;
+        border-radius: 12px;
+        background: linear-gradient(180deg, #00e0ff, #6aff3d);
+        border: none;
+        color: #042b33;
+        font-weight: 700;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+      .search-btn:hover {
+        transform: scale(1.05);
+      }
+
+      /* ITEM CARDS GRID */
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 20px;
+        padding: 0 5vw;
+        margin-bottom: 60px;
+      }
+      .card {
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.015),
+          rgba(255, 255, 255, 0.01)
+        );
+        border-radius: 16px;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.03);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+      .card:hover {
+        transform: translateY(-6px);
+        box-shadow: 0 18px 40px rgba(0, 0, 0, 0.6);
+      }
+      .card picture img {
+        width: 100%;
+        height: auto;
+        max-height: 200px;
+        border-radius: 12px;
+        object-fit: contain;
+        display: block;
+        background: #0a1a27;
+      }
+      .card h3 {
+        font-weight: 700;
+        color: #dff7f7;
+        font-size: 1.2rem;
+      }
+      .card p {
+        font-size: 0.9rem;
+        color: rgba(230, 247, 247, 0.8);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .contact-btn {
+        margin-top: 8px;
+        padding: 10px 16px;
+        border-radius: 12px;
+        border: none;
+        background: linear-gradient(180deg, #ff6b6b, #ff4a4a);
+        color: white;
+        font-weight: 700;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+      .contact-btn:hover {
+        transform: scale(1.05);
+      }
+      .badge {
+        padding: 4px 10px;
+        border-radius: 12px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        color: white;
+        background: #00e0ff;
+        align-self: flex-start;
+      }
+
+      /* FOOTER */
+      .footer {
+        padding: 28px 5vw;
+        background: linear-gradient(
+          180deg,
+          rgba(255, 255, 255, 0.01),
+          rgba(255, 255, 255, 0.005)
+        );
+        display: flex;
+        gap: 18px;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        border-top: 1px solid rgba(255, 255, 255, 0.02);
+      }
+      .f-col {
+        min-width: 180px;
+      }
+      .foot-logo {
+        width: 68px;
+        border-radius: 10px;
+        margin-bottom: 8px;
+      }
+      .muted {
+        color: rgba(255, 255, 255, 0.6);
+      }
+
+      @media (max-width: 900px) {
+        .grid {
+          grid-template-columns: 1fr;
+        }
+        .search-area {
+          flex-direction: column;
+          align-items: center;
+        }
+        .type-select,
+        .search-input {
+          max-width: 100%;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <header class="nav">
+      <div class="nav-left">
+        <img src="LOGO.png" alt="VFind logo" class="nav-logo" />
+        <div>
+          <div class="brand-name">VFind</div>
+          <div class="brand-sub">Lost & Found</div>
+        </div>
+      </div>
+      <nav>
+        <ul class="nav-links">
+          <li><a href="home.html">Home</a></li>
+          <li><a href="lost.html">Lost</a></li>
+          <li><a href="found.html">Found</a></li>
+          <li><a class="active" href="#">Search</a></li>
+          <li><a href="profile.html">Profile</a></li>
+          <li><a href="about.html">About</a></li>
+        </ul>
+      </nav>
+      <div class="nav-right">
+        <button
+          class="btn btn-primary"
+          onclick="localStorage.removeItem('vfind_institute'); location.href='institute.html'"
+        >
+          Sign Out
+        </button>
+      </div>
+    </header>
+
+    <!-- PAGE TITLE -->
+    <h1 class="page-title">Search Items</h1>
+
+    <!-- SEARCH BAR -->
+    <div class="search-area">
+      <input
+        type="text"
+        id="searchInput"
+        class="search-input"
+        placeholder="Search items..."
+      />
+      <select id="typeFilter" class="type-select">
+        <option value="all">All</option>
+        <option value="lost">Lost</option>
+        <option value="found">Found</option>
+      </select>
+      <button class="search-btn" id="searchBtn">
+        <i class="fa-solid fa-magnifying-glass"></i> Search
+      </button>
+    </div>
+
+    <!-- ITEMS GRID -->
+    <div class="grid" id="resultsGrid"></div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="f-col">
+        <img src="LOGO.png" class="foot-logo" alt="VFind logo" />
+        <div class="muted">
+          VFind — Simple & fast lost-and-found for your institute.
+        </div>
+      </div>
+      <div class="f-col">
+        <h4 style="color: #dff7f7">Site</h4>
+        <a href="lost.html">Report Lost</a>
+        <a href="found.html">Report Found</a>
+      </div>
+      <div class="f-col">
+        <h4 style="color: #dff7f7">Help</h4>
+        <a href="#">Customer Support</a>
+        <a href="#">Privacy</a>
+      </div>
+      <div class="f-col">
+        <h4 style="color: #dff7f7">Contact</h4>
+        <div class="muted">support@vfind.com</div>
+        <div class="muted">+92 765 432 000</div>
+      </div>
+    </footer>
+
+    <script>
+      // Combined Lost + Found dataset
+      const items = [
+        {
+          title: "Wallet",
+          type: "lost",
+          date: "20 Nov 2024",
+          location: "Cafeteria",
+          desc: "Black leather wallet with ID card.",
+          img: "wallet.avif",
+        },
+        {
+          title: "AirPods",
+          type: "lost",
+          date: "19 Nov 2024",
+          location: "Lab 4",
+          desc: "White case, left pod missing.",
+          img: "air pods.avif",
+        },
+        {
+          title: "Bag",
+          type: "lost",
+          date: "21 Nov 2024",
+          location: "Library",
+          desc: "Black backpack with books.",
+          img: "bag.avif",
+        },
+        {
+          title: "USB Drive",
+          type: "lost",
+          date: "18 Nov 2024",
+          location: "Auditorium",
+          desc: "16GB Kingston flash drive.",
+          img: "usb.webp",
+        },
+        {
+          title: "Notebook",
+          type: "found",
+          date: "22 Nov 2024",
+          location: "Classroom",
+          desc: "Blue notebook with notes.",
+          img: "notebook.webp",
+        },
+        {
+          title: "Watch",
+          type: "found",
+          date: "20 Nov 2024",
+          location: "Gym",
+          desc: "Silver wristwatch.",
+          img: "watch.avif",
+        },
+        {
+          title: "Keychain",
+          type: "found",
+          date: "21 Nov 2024",
+          location: "Cafeteria",
+          desc: "Colorful keychain.",
+          img: "keychain.webp",
+        },
+        {
+          title: "Glasses",
+          type: "found",
+          date: "23 Nov 2024",
+          location: "Library",
+          desc: "Black frame glasses.",
+          img: "glasses.avif",
+        },
+      ];
+
+      const grid = document.getElementById("resultsGrid");
+      const searchInput = document.getElementById("searchInput");
+      const typeFilter = document.getElementById("typeFilter");
+
+      function renderResults(list) {
+        grid.innerHTML = "";
+        if (list.length === 0) {
+          grid.innerHTML =
+            '<p style="color:#cfeff0;text-align:center;width:100%;">No items found.</p>';
+          return;
+        }
+        list.forEach((item) => {
+          const card = document.createElement("div");
+          card.className = "card";
+          card.innerHTML = `
+            <picture>
+              <source srcset="${item.img}" type="image/${
+            item.img.endsWith(".avif") ? "avif" : "webp"
+          }">
+              <img src="${item.img}" alt="${item.title}">
+            </picture>
+            <h3>${item.title} <span class="badge">${
+            item.type.charAt(0).toUpperCase() + item.type.slice(1)
+          }</span></h3>
+            <p><i class="fa-solid fa-calendar-days"></i> ${item.date}</p>
+            <p><i class="fa-solid fa-location-dot"></i> ${item.location}</p>
+            <p><i class="fa-solid fa-info-circle"></i> ${item.desc}</p>
+            <button class="contact-btn"><i class="fa-solid fa-phone"></i> Contact</button>
+          `;
+          grid.appendChild(card);
+        });
+      }
+
+      renderResults(items);
+
+      // Filter function
+      function filterItems() {
+        const query = searchInput.value.toLowerCase();
+        const type = typeFilter.value;
+        const filtered = items.filter((i) => {
+          const matchesType = type === "all" || i.type === type;
+          const matchesQuery =
+            i.title.toLowerCase().includes(query) ||
+            i.location.toLowerCase().includes(query);
+          return matchesType && matchesQuery;
+        });
+        renderResults(filtered);
+      }
+
+      searchInput.addEventListener("input", filterItems);
+      typeFilter.addEventListener("change", filterItems);
+      document
+        .getElementById("searchBtn")
+        .addEventListener("click", filterItems);
+
+      // Contact button logic
+      document.addEventListener("click", function (e) {
+        const btn = e.target.closest(".contact-btn");
+        if (btn) {
+          const card = btn.closest(".card");
+          const title = card.querySelector("h3").innerText.toLowerCase();
+          const typeBadge = card
+            .querySelector(".badge")
+            .innerText.toLowerCase();
+          if (typeBadge === "lost") {
+            window.location.href = "lost_chat.html";
+          } else {
+            window.location.href = "contact.html";
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
